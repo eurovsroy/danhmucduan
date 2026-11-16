@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard Danh mục Dự án</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#ffffff;--card:#fff;--tx:#1b2433;--mut:#6b7587;--bd:#e3e8f0;--ok:#16a34a;--risk:#e11d48;--ns:#94a3b8;--done:#2563eb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1521;--card:#18202f;--tx:#e8edf6;--mut:#98a3b8;--bd:#2a3447;--ok:#34d399;--risk:#fb7185;--ns:#7c8aa3;--done:#60a5fa}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{max-width:1600px;margin:auto;padding:20px 16px}
+h1{margin:0;font-size:24px;color:var(--done)}.sub{color:var(--mut);margin:2px 0 18px}
+.g{display:grid;gap:14px}.k{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.two{grid-template-columns:repeat(auto-fit,minmax(340px,1fr));margin-top:14px}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px}
+.c h2{font-size:15px;margin:0 0 12px}
+.kp .n{font-size:40px;font-weight:700;line-height:1.1}.kp .l{color:var(--mut);font-size:18px}.kp{position:relative;border:1px solid color-mix(in srgb,var(--a) 45%,var(--bd));border-top:5px solid var(--a);background:linear-gradient(160deg,color-mix(in srgb,var(--a) 22%,var(--card)),var(--card) 75%)}.kp .ic{position:absolute;top:12px;right:14px;font-size:30px;line-height:1}.ct{border-top:5px solid var(--a);background:linear-gradient(180deg,color-mix(in srgb,var(--a) 12%,var(--card)),var(--card) 40%)}.kp .n,.kp .l b{color:var(--a)}
+#grl>div{margin:0!important}.gl{margin-top:14px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;border:2px dashed #f59e0b;background:linear-gradient(90deg,color-mix(in srgb,#f59e0b 18%,var(--card)),var(--card))}.gl .n{font-size:30px;font-weight:700;color:#f59e0b;line-height:1.2}.gl .n span{font-size:17px;font-weight:600;color:var(--tx)}.gl .t{color:var(--mut);font-size:15px}.gl .gb{flex:1;min-width:260px}.gl .bar{height:24px}.gk{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:13px;color:var(--mut)}.gk i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px}
+.dn{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.lg div{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:17px}.lg i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.row{display:grid;grid-template-columns:130px 1fr 34px;gap:8px;align-items:center;margin:7px 0;font-size:13px}
+.bar{display:flex;height:18px;border-radius:5px;overflow:hidden;background:var(--bd)}.bar b{display:flex;align-items:center;justify-content:center;height:100%;color:#fff;font-size:11px;font-weight:700}
+.rn{text-align:right;color:var(--mut)}
+.ins{background:linear-gradient(135deg,rgba(37,99,235,.10),rgba(225,29,72,.08))}
+.ins{align-self:start}.ins li{margin:8px 0;font-size:20px;line-height:1.45}.ins li b{color:var(--done);font-weight:800}
+.al{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--bd)}.al:last-child{border:0}
+.tg{display:inline-block;padding:1px 9px;border-radius:99px;font-size:11px;font-weight:600;color:#fff;white-space:nowrap}
+.f{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.f button,.f select{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:5px 12px;border-radius:99px;cursor:pointer;font:inherit}
+.f button.on{background:var(--tx);color:var(--card)}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:640px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--bd);font-size:13px}th{color:var(--mut);font-weight:600}
+</style></head><body><div class="w">
+<h1>📊 Dashboard Danh mục Dự án</h1><div class="sub" id="sub"></div>
+<div class="g k" id="kpi"></div>
+<div class="c gl" id="gl"></div>
+<div class="g two">
+ <div class="c"><h2>Tình trạng tổng thể</h2><div class="dn"><svg id="donut" width="170" height="170" viewBox="0 0 42 42"></svg><div class="lg" id="lg"></div></div></div>
+ <div class="c ins"><h2>💡 Nhận định chính</h2><ul id="ins" style="margin:0;padding-left:18px"></ul></div>
+</div>
+<div class="g two">
+ <div class="c"><h2>Dự án theo giai đoạn (Project Phase)</h2><div id="ph"></div></div>
+ <div class="c"><h2 style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">Sức khỏe theo nhóm dự án<span id="grl"></span></h2><div id="gr"></div></div>
+</div>
+<div class="g two">
+ <div class="c ct" style="--a:#f59e0b"><h2>⚠️ Cần chú ý: At Risk</h2><div id="ar"></div></div>
+ <div class="c ct" style="--a:#64748b"><h2>⏸️ Chưa khởi động &amp; cần rà soát dữ liệu</h2><div id="ns"></div></div>
+</div>
+<div class="c" style="margin-top:14px"><h2>Danh sách chi tiết</h2><div class="f" id="fl"></div><div class="tw"><table><thead><tr><th>Mã</th><th>Tên dự án</th><th>Nhóm</th><th>Giai đoạn</th><th>Trạng thái</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+</div>
+<script>
+const G=["Ngân hàng số & Hệ sinh thái","Core Banking/Thẻ & Thin Core","Năng lực dữ liệu","Năng lực AI","Vận hành & Hỗ trợ","Tích hợp","Nền tảng Hạ tầng","An toàn thông tin"];
+const PH=["Idea","Discovery","Procurement","Contract","Implementation","Pilot","Partial Go-Live","Go-Live"];
+const ST={O:["On Track","#16a34a","✅"],A:["At Risk","#f59e0b","⚠️"],N:["Not Started","#64748b","⏸️"],C:["Completed","#2563eb","🏁"]};
+const D=[
+["CL1",0,"SACOMBIZ",6,"O"],["CL2",0,"SACOMPAY",6,"O"],["CL3",0,"HH",0,"N"],["CL5",0,"Open API GĐ2",4,"O"],["CL6",0,"Sales App Lite (Quick win)",6,"O"],["CL9",0,"Wealth Management",6,"O"],["CL10",0,"SCEX - Liên kết Tài sản số",6,"O"],
+["CL11",1,"Core T24 - Triển khai TPH & AA",6,"A"],["CL12",1,"Nâng cấp Core Treasury",4,"O"],["CL13",1,"Chuyển BC T24 ra khỏi ODS (Thin core)",6,"O"],
+["CL15",2,"Data Governance GĐ1 -> GĐ2",1,"O"],["CL17",2,"CI36 (Nền tảng dữ liệu KH tập trung)",0,"N"],["CL19",2,"Fraud Detection - Quick Win",6,"O"],
+["CL20",3,"AI Agent nội bộ & phục vụ KH",4,"O"],["CL21",3,"AI OCR",2,"A"],
+["CL22",4,"Chuẩn hóa nền tảng Digital Office GĐ1",6,"O"],["CL23",4,"Smart Branch Teller GĐ1",0,"A"],["CL24",4,"Số hóa các quy trình thẻ",4,"O"],["CL27",4,"Cải tiến XLN",6,"O"],["CL28",4,"LOS - Nâng cấp theo mô hình KD mới",4,"O"],["CL32",4,"Camera AI",6,"O"],
+["CL35",5,"Notification Tập trung",4,"A"],["CL36",5,"Payment Hub",6,"O"],
+["CL44",6,"Automate & Real-Time Monitoring (AI Ops)",0,"N"],
+["CL45",7,"AI-Driven SOC GĐ1",1,"O"],["CL46",7,"Identity Access Mngt (IAM) GĐ1",7,"C"],["CL47",7,"API Security",1,"O"],["CL48",7,"Data Loss Prevention (DLP) GĐ1",7,"C"],
+["CORE01",1,"Cải tiến hệ thống Core Thẻ",4,"O"],["CUS01",0,"Cải tiến SPDV SACOMBANK PAY",6,"A"],["CUS02",0,"SP Sinh lời tự động",6,"O"],
+["INS01",2,"Mô hình nhận diện KHDN tiềm năng",7,"C"],["INS02",2,"Cải tiến HT xử lý dữ liệu & Báo cáo",6,"C"],["INS03",2,"Báo cáo quản trị",6,"O"],
+["HT01",6,"Mô hình OGG Hub tối ưu truyền tải dữ liệu",7,"C"],["HT02",6,"Mô hình truy xuất dữ liệu đồng thời 2 site",5,"O"],["HT04",6,"OGG Hub kết hợp Kafka Stream",6,"N"],["HT05",6,"Trang bị mới HT phần cứng ODS-ODI (2026)",2,"O"],["HT06",6,"Nâng cấp firewall Cisco EOS",2,"O"],["HT07",6,"Internet load balancing Ecessa EOSL",1,"N"],["HT08",6,"Nâng cấp Core Router Cisco EOSL",3,"O"],
+["QTDN06",2,"Credit Modelling",4,"O"],["OP01",4,"Phân quyền tập trung - GĐ1",4,"O"],["CUS03",0,"MDP - Direct Debit",4,"O"],["AI01",3,"Voicebot GenAI",3,"O"],["CUS04",0,"Chứng chỉ tiền gửi linh hoạt",1,"A"],["-",4,"Thẩm định tài sản cho vay",2,"O"]];
+const $=i=>document.getElementById(i),N=D.length,cnt=k=>D.filter(d=>d[4]==k).length,pc=n=>Math.round(n/N*100);
+const tag=s=>`<span class="tg" style="background:${ST[s][1]}">${ST[s][2]} ${ST[s][0]}</span>`;
+$("sub").textContent=`Tổng hợp ${N} dự án · ${G.length} nhóm · Cập nhật 13/11/2026`;
+const K=[["Tổng dự án",N,"#6366f1","📦"],["On Track",cnt("O"),ST.O[1],ST.O[2]],["At Risk",cnt("A"),"#f59e0b",ST.A[2]],["Not Started",cnt("N"),ST.N[1],ST.N[2]],["Completed",cnt("C"),ST.C[1],ST.C[2]]];
+$("kpi").innerHTML=K.map(([l,n,a,ic])=>`<div class="c kp" style="--a:${a}"><div class="ic">${ic}</div><div class="n">${n}</div><div class="l">${l}${l!="Tổng dự án"?` · ${pc(n)}%`:""}</div></div>`).join("");
+// go-live banner
+const gF=D.filter(d=>d[3]==7).length,gP=D.filter(d=>d[3]==6).length,gT=gF+gP;
+$("gl").innerHTML=`<div style="font-size:44px;line-height:1">🚀</div><div><div class="n">${gT}<span> / ${N} dự án đã Go-Live · ${pc(gT)}%</span></div><div class="t">Tiến độ triển khai đến giai đoạn vận hành (khác với tình trạng sức khỏe ở trên)</div></div><div class="gb"><div class="bar"><b style="width:${gF/N*100}%;background:#16a34a" title="Go-Live toàn bộ: ${gF}">${gF}</b><b style="width:${gP/N*100}%;background:#86efac;color:#14532d" title="Partial Go-Live: ${gP}">${gP}</b></div><div class="gk"><span><i style="background:#16a34a"></i>Go-Live toàn bộ</span><span><i style="background:#86efac"></i>Partial Go-Live</span><span><i style="background:var(--bd)"></i>Chưa Go-Live</span></div></div>`;
+// donut
+let off=25;$("donut").innerHTML='<circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--bd)" stroke-width="5"/>'+["O","A","N","C"].map(s=>{const p=cnt(s)/N*100,r=`<circle cx="21" cy="21" r="15.9" fill="none" stroke="${ST[s][1]}" stroke-width="5" stroke-dasharray="${p} ${100-p}" stroke-dashoffset="${off}"/>`;off-=p;return r}).join("")+`<text x="21" y="22" text-anchor="middle" font-size="11.1" font-weight="700" fill="var(--tx)">${N}</text><text x="21" y="29" text-anchor="middle" font-size="3.7" fill="var(--mut)">dự án</text>`;
+$("lg").innerHTML=["O","A","N","C"].map(s=>`<div><i style="background:${ST[s][1]}"></i>${ST[s][2]} ${ST[s][0]}: <b>${cnt(s)}</b> (${pc(cnt(s))}%)</div>`).join("");
+// phase
+const mx=Math.max(...PH.map((_,i)=>D.filter(d=>d[3]==i).length));
+$("ph").innerHTML=PH.map((p,i)=>{const n=D.filter(d=>d[3]==i).length,o=D.filter(d=>d[3]==i&&d[4]=="A").length;return `<div class="row" style="grid-template-columns:140px 1fr 34px;font-size:15px"><span>${p}</span><div class="bar" style="background:none"><b style="width:${n/mx*100}%;background:linear-gradient(90deg,#6366f1,#06b6d4);border-radius:5px"></b></div><span class="rn">${n}</span></div>`}).join("");
+// group
+$("gr").innerHTML=G.map((g,i)=>{const L=D.filter(d=>d[1]==i),t=L.length;return `<div class="row" style="grid-template-columns:200px 1fr 34px"><span title="${g}" style="font-size:15px;line-height:1.3">${g}</span><div class="bar">${["C","O","A","N"].map(s=>{const n=L.filter(d=>d[4]==s).length;return n?`<b style="width:${n/t*100}%;background:${ST[s][1]}" title="${ST[s][0]}: ${n}">${n}</b>`:""}).join("")}</div><span class="rn" style="font-size:17px">${t}</span></div>`}).join("")+`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">${["C","O","A","N"].map(s=>`<span class="tg" style="background:${ST[s][1]};padding:4px 12px;font-size:12px;border-radius:6px">${ST[s][2]} ${ST[s][0]}</span>`).join("")}</div>`;
+$("grl").appendChild($("gr").lastElementChild);
+// alerts
+const row=d=>`<div class="al"><span style="font-size:18px">${ST[d[4]][2]}</span><b style="min-width:58px">${d[0]}</b><div style="flex:1">${d[2]}<div style="font-size:12px;color:var(--mut)">${G[d[1]]} · ${PH[d[3]]}</div></div></div>`;
+$("ar").innerHTML=D.filter(d=>d[4]=="A").map(row).join("");
+$("ns").innerHTML=D.filter(d=>d[4]=="N").map(row).join("")+`<div style="font-size:12px;color:var(--mut);margin-top:8px"><b>⚠ Dữ liệu cần xác nhận:</b> HT04 (Partial Go-Live nhưng Not Started); INS02 (Partial Go-Live nhưng Completed); CL23 (Idea nhưng At Risk).</div>`;
+// insights
+const gr=G.map((g,i)=>[g,D.filter(d=>d[1]==i&&d[4]=="A").length]).sort((a,b)=>b[1]-a[1])[0];
+$("ins").innerHTML=`<li><b>${pc(cnt("O")+cnt("C"))}%</b> danh mục đang đúng tiến độ hoặc đã hoàn thành; ${pc(cnt("A"))}% có rủi ro.</li><li><b>${D.filter(d=>d[3]>=6).length}</b> dự án đã Go-Live (một phần/toàn bộ) — giai đoạn Partial Go-Live chiếm đa số (${D.filter(d=>d[3]==6).length}).</li><li>Nhóm <b>${gr[0]}</b> có nhiều dự án At Risk nhất (${gr[1]}).</li>`;
+// table
+let fS="all",fG="all";
+function tb(){$("tb").innerHTML=D.filter(d=>(fS=="all"||d[4]==fS)&&(fG=="all"||d[1]==fG)).map(d=>`<tr><td><b>${d[0]}</b></td><td>${d[2]}</td><td>${G[d[1]]}</td><td>${PH[d[3]]}</td><td>${tag(d[4])}</td></tr>`).join("")}
+function fl(){$("fl").innerHTML=[["all","Tất cả"],...Object.entries(ST).map(([k,v])=>[k,v[0]])].map(([k,l])=>`<button class="${fS==k?"on":""}" data-s="${k}">${l}</button>`).join("")+`<select id="sg"><option value="all">Mọi nhóm</option>${G.map((g,i)=>`<option value="${i}" ${fG==i?"selected":""}>${g}</option>`).join("")}</select>`;
+document.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{fS=b.dataset.s;fl();tb()});$("sg").onchange=e=>{fG=e.target.value=="all"?"all":+e.target.value;tb()}}
+fl();tb();
+</script></body></html>
